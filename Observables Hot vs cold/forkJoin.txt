@@ -1,0 +1,32 @@
+Why use forkJoin?
+This operator is best used when you have a group of observables and only care about the final emitted value of each. One common use case for this is if you wish to issue multiple requests on page load (or some other event) and only want to take action when a response has been received for all. In this way it is similar to how you might use Promise.all.
+Be aware that if any of the inner observables supplied to forkJoin error you will lose the value of any other observables that would or have already completed if you do not catch the error correctly on the inner observable. If you are only concerned with all inner observables completing successfully you can catch the error on the outside.
+It's also worth noting that if you have an observable that emits more than one item, and you are concerned with the previous emissions forkJoin is not the correct choice. In these cases you may better off with an operator like combineLatest or zip.
+
+// RxJS v6+
+import { delay, take } from 'rxjs/operators';
+import { forkJoin, of, interval } from 'rxjs';
+
+const myPromise = val =>
+  new Promise(resolve =>
+    setTimeout(() => resolve(`Promise Resolved: ${val}`), 5000)
+  );
+
+/*
+  when all observables complete, give the last
+  emitted value from each as an array
+*/
+const example = forkJoin(
+  //emit 'Hello' immediately
+  of('Hello'),
+  //emit 'World' after 1 second
+  of('World').pipe(delay(1000)),
+  //emit 0 after 1 second
+  interval(1000).pipe(take(1)),
+  //emit 0...1 in 1 second interval
+  interval(1000).pipe(take(2)),
+  //promise that resolves to 'Promise Resolved' after 5 seconds
+  myPromise('RESULT')
+);
+//output: ["Hello", "World", 0, 1, "Promise Resolved: RESULT"]
+const subscribe = example.subscribe(val => console.log(val));

@@ -1,0 +1,136 @@
+Want to get access to a child component, directive or a DOM element from a parent component class? It’s easy to do with the ViewChild decorator. ViewChild returns the first element that matches a given component, directive or template reference selector. In cases where you’d want to access multiple children, you’d use ViewChildren instead.
+
+
+//capital-directive.ts
+----------------------
+import { Directive, ElementRef, HostListener } from "@angular/core";
+
+@Directive({
+    selector:"[capital-first]"
+})
+export class CapitalDirective{
+    message:string = "chandra msg";
+      
+}
+
+//app.component.ts
+------------------
+import { Directive } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { CapitalDirective } from './capital.directive';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  title = 'app';
+  extramsg:string;
+  @ViewChild(CapitalDirective) set view(directive:CapitalDirective){
+    this.extramsg = directive.message;
+  };
+  ngAfterViewInit(){
+    console.log(this.extramsg);
+  }
+}
+
+//app.component.html
+--------------------
+<!--The content below is only a placeholder and can be replaced.-->
+<div style="text-align:center">
+  <h1 capital-first>
+    Welcome to {{ title }}!
+  </h1>
+</div>
+
+DOM Elements
+We can access native DOM elements that have a template reference variable. Let’s say we have this in our template with the someInput reference variable:
+
+//app.component.html
+--------------------
+<input #someInput />
+
+//app.component.ts:
+-------------------
+import { Directive, ElementRef } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  title = 'app';
+  extramsg:string;
+  @ViewChild('someInput') someInput:ElementRef;
+  ngAfterViewInit(){
+    this.someInput.nativeElement.value="pothireddy";
+  }
+}
+
+Child Components:
+-----------------
+It’s just as easy to access a child component and call methods or access instance variables that are available on the child. Let’s say we have a child component with a whoAmI method like this:
+//child.component.ts:
+---------------------
+import { Component } from "@angular/core";
+@Component({
+    selector:"child-component",
+    template:"<h1>Hi Chnadra </h1>"
+})
+export class ChildComponent{
+    whoAmI(){
+        return "I am a child component";
+    }
+}
+
+//app.component.ts:
+-------------------
+import { Component, ViewChild } from '@angular/core';
+import { ChildComponent } from './child.component';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  title = 'app';
+  msg:string="chandra";
+  @ViewChild(ChildComponent) child:ChildComponent;
+  ngAfterViewinit(){
+    this.msg = this.child.whoAmI();
+  }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

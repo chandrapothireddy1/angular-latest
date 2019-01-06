@@ -1,0 +1,43 @@
+Content and View
+*The children element which are located inside of its template of a component are called view children **
+**elements which are used between the opening and closing tags of the host element of a given component are called content children **
+
+
+@ContentChild and @ContentChildren:
+-----------------------------------
+@ContentChild and @ContentChildren both are decorators. They are used to fetch single child element or all child elements from content DOM. Let us understand more about it. 
+
+@ContentChild
+
+@ContentChild gives the first element or directive matching the selector from the content DOM. If new child element replaces the old one matching the selector in content DOM, then property will also be updated. @ContentChild has following metadata properties. 
+selector: Directive type or the name used for querying. Find the example when type is directive.
+@ContentChild(BookDirective) book: BookDirective; read: This is optional metadata. It reads a different token from the queried element. 
+
+@ContentChildren
+
+@ContentChildren is used to get QueryList of elements or directives from the content DOM. When there is change in content DOM, data in QueryList will also change. If child elements are added, we will get those new elements in QueryList. If child elements are removed, then those elements will be removed from the QueryList. The metadata properties of @ContentChildren are as follows. 
+selector: Directive type or the name used for querying. Find the example when type is directive.
+
+@ContentChildren(BookDirective) topBooks: QueryList<BookDirective>
+
+Using AfterContentInit
+AfterContentInit is a lifecycle hook that is called after directive content is fully initialized. It has a method ngAfterContentInit(). This method runs after angular loads external content into the component view. This method runs once after first ngDoCheck() method. Contents queried by @ContentChild and @ContentChildren are set before ngAfterContentInit() is called. AfterContentInit is used as given below.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
