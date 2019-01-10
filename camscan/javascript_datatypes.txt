@@ -1,0 +1,284 @@
+Data types:
+----------
+Numeric
+boolean
+undefined
+null
+string
+
+var a =10;
+console.log(typeof a);//number
+
+var b= "chandra";
+console.log(typeof b);//string
+
+var c = { name : "chandra"};
+console.log(typeof c);//object
+
+var d = undefined;
+console.log(typeof d);//undefined
+
+var e = true;
+console.log(typeof e);//boolean
+
+var f = null;
+console.log(typeof f);//object
+
+var arr = [1,2,3];
+console.log(typeof arr);//object
+
+
+1. Array concatination:
+----
+joins two or more arrays
+var a=[1,2,3];
+var b = [4,5,6];
+var c = a.concat(b);
+
+2.every:all values should verify
+-------
+var arr=[1,2,3];
+var out = arr.every(function(value){
+return value>=0;
+});
+console.log(out);
+
+3. some:
+-------
+alteast one value should verify
+var arr = [1,2,3];
+var out = arr.some(funciton(value){
+return value>=3;
+});
+console.log(out);//true
+
+4.push():add element at end of array
+-------
+var arr = [1,2,3];
+arr.push(4);
+console.log(arr);//[1,2,3,4]
+
+5.pop: emove element from end of array
+-----
+var arr = [1,2,3];
+arr.pop();
+console.log(arr);
+
+6.shift: remove element from first index
+-------
+var arr = [1,2,3];
+arr.shift();
+console.log(arr);
+
+7.unshift: add element at first index
+----------
+var arr = [1,2,3];
+arr.unshift(7);
+console.log(arr);
+
+8.map:refer every element
+-----
+var arr = [1,2,3];
+arr.map(function(element){
+console.log(element);//1 2 3
+});
+
+9.indexOf: search element in array
+----------
+var arr = [1,2,3];
+var out = arr.indexOf(2);
+console.log(out);
+
+10. reduce():reduce values of an array to single(left to right)
+----------
+var arr = [1,2,3];
+var total = 0;
+var out = arr.reduce(function(total,num){
+return total+ Math.round(num);
+});
+console.log(out);
+
+Time functions:
+---------------
+var d =new Date();
+
+console.log(d.getDate());
+//returns the day of month(from 1-31)
+console.log(d.getDate());
+console.log(d.getDate());
+console.log(d.getDate());
+console.log(d.getDate());
+console.log(d.getDate());
+
+console.log(d.getDate());
+console.log(d.getDate());
+console.log(d.getDate());
+console.log(d.getDate());
+console.log(d.getDate());
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+prototype:
+----------
+function employee(salary,name){
+    this.salary  =salary;
+    this.name = name;
+    console.log(this.name + " contains " + this.salary);
+}
+employee.prototype.nationality = "indian";
+employee.prototype.sum = function(x,y){
+    return x+y
+}
+
+employee(2000,"chandra");
+console.log(employee.sum(10,20));//sum is not function
+console.log(employee.prototype.sum(10,20));//30
+console.log(employee.prototype);//prototype all props
+
+Object creation:
+----------------
+function display (){
+    this.name = "abc";
+}
+var obj1 = new display();
+console.log(obj1.name);//abc
+ 
+var a = {address:"India"};
+
+var b = Object.create(a);
+console.log(b.address);//india
+
+var c ={};
+c.firstname = "chandra";
+
+console.log(c);//prints entire c object
+
+
+Prototype-object:
+----------------
+function display(){
+    this.address = "AP";
+}
+display.prototype.name = "chandra";
+
+var obj1 = new display();
+
+console.log(obj1.address);//AP
+console.log(obj1.name);//chandra
+
+cloning objects:
+----------------
+var obj1 = {name:"chandra",address:"AP"};
+console.log(obj1.name);
+var obj2 = obj1;//shallow copy i.e same storage
+console.log(obj2.name);
+
+obj2.name="India";
+console.log(obj2.name);
+
+console.log(obj1.name);
+
+var obj3 = {service:"Home"};
+var obj4={};
+Object.assign(obj4,obj3);//deep copy i.e diffrent reference storage
+
+console.log(obj3.service);
+console.log(obj4.service);
+obj4.service = "Offiice";
+
+console.log(obj3.service);
+console.log(obj4.service);
+
+call-bind-apply:
+----------------
+call:Call invokes the function and allows you to pass in arguments one by one.
+----
+var obj = {name:"chandra",address:"AP"};
+var fun1 = function(a,b,c){
+    console.log(`welcome to ${this.name} and address is ${a} , ${this.address} , ${b}`);
+}
+fun1.call(obj,"HYD","India");
+
+Apply:Apply invokes the function and allows you to pass in arguments as an array
+------
+var obj = {name:"chandra",address:"AP"};
+var fun1 = function(a,b,c){
+    console.log(`welcome to ${this.name} and address is ${a} , ${this.address} , ${b}`);
+}
+var args = ["HYD","India"]
+fun1.apply(obj,args);
+
+Bind:Bind returns a new function, allowing you to pass in a this array and any number of arguments
+-----
+var obj = {name:"chandra",address:"AP"};
+var fun1 = function(a,b,c){
+    console.log(`welcome to ${this.name} and address is ${a} , ${this.address} , ${b}`);
+}
+var bindfun = fun1.bind(obj);//creates a local copy
+
+bindfun("HYD","INDIA");
+
+closures:
+---------
+A closure is an inner function that has access to the outer (enclosing) function's variables—scope chain. The closure has three scope chains: it has access to its own scope (variables defined between its curly brackets), it has access to the outer function's variables, and it has access to the global variables
+
+The scope of a closure in JavaScript is lexical, meaning it's defined statically by its location within the source code.
+
+function add(x){
+    console.log("x value is"+x);//10
+    return function(y){
+        return x+y;
+    }
+}
+var f1 = add(10);
+console.log(f1(20));//30
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
